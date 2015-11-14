@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace KSPCamera
+namespace DockingCamera
 {
     /// <summary>
     /// Destroyer cameras
@@ -12,7 +8,7 @@ namespace KSPCamera
     [KSPAddon(KSPAddon.Startup.Flight, true)]
     class CameraDestroyer: MonoBehaviour
     {
-        bool isInit = false;
+        //bool isInit = false;
         /// <summary>
         /// Subscription events
         /// </summary>
@@ -40,7 +36,7 @@ namespace KSPCamera
             {
                 var kspCamera = module as ICamPart;
                 if (kspCamera != null)
-                    kspCamera.Deavtivate();
+                    kspCamera.Deactivate();
             }
         }
     }

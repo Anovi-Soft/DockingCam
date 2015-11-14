@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace KSPCamera
+namespace DockingCamera
 {
     /// <summary>
     /// Module adds an external camera and gives control over it
@@ -28,17 +28,24 @@ namespace KSPCamera
         [KSPField]
         public string cap;
 
-        private GameObject capObject;
-
         [KSPField]
         public string zoommer;
 
         [KSPField]
         public float stepper;
 
+        [KSPField]
+        public int distance;
+
+        [KSPField(isPersistant = true)]
+        public int hits=-1;
+
+        private GameObject capObject;
+        //private GameObject lenzObject;
 
 
-        PartCamera camera;
+
+        private new PartCamera camera;
         
         public override void OnStart(StartState state = StartState.Flying)
         {
@@ -49,7 +56,11 @@ namespace KSPCamera
         public void Start()
         {
             if (camera == null)
-                camera = new PartCamera(this.part, rotatorZ, rotatorY, zoommer, stepper, cap, cameraName);
+            {
+                //camera = new GameObject().AddComponent<PartCamera>();
+                camera = new PartCamera(this.part, rotatorZ, rotatorY, zoommer, stepper, cap, cameraName, distance, hits);
+                
+            }
             capObject = part.gameObject.GetChild(cap);
         }
         public override void OnUpdate()
@@ -58,10 +69,28 @@ namespace KSPCamera
                 return;
             if (camera.IsActivate)
                 camera.Update();
+            if (camera.IsButtonOff)
+            {
+                IsEnabled = false;
+                camera.IsButtonOff = false;
+            }
             if (IsEnabled)
                 Activate();
             else
-                Deavtivate();
+                Deactivate();
+            if (camera.IsAuxiliaryWindowButtonPres)
+                StartCoroutine(camera.ResizeWindow());
+            if (camera.IsToZero)
+            {
+                camera.IsToZero = false;
+                StartCoroutine(camera.ToZero());
+            }
+            if (camera.waitRayOn)
+            {
+                camera.waitRayOn = false;
+                StartCoroutine(camera.WaitForRay());
+            }
+            hits = camera.hits;
         }
 
         public void Activate()
@@ -70,12 +99,11 @@ namespace KSPCamera
             camera.Activate();
             StartCoroutine("CapRotator");
         }
-        public void Deavtivate()
+        public void Deactivate()
         {
             if (!camera.IsActivate) return;
             camera.Deactivate();
             StartCoroutine("CapRotator");
-            
         }
         private IEnumerator CapRotator()
         {
@@ -86,6 +114,7 @@ namespace KSPCamera
                 yield return new WaitForSeconds(1f / 270);
             }
         }
+
         
     }
     interface ICamPart
@@ -97,7 +126,7 @@ namespace KSPCamera
         /// <summary>
         /// Deactivate camera
         /// </summary>
-        void Deavtivate();
+        void Deactivate();
         /// <summary>
         /// Adding a camera
         /// </summary>

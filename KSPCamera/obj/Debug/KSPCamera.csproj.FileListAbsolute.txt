@@ -14,3 +14,6 @@ C:\Users\Andrew\Documents\Projects\KSPCamera\KSPCamera\obj\Debug\KSPCamera.dll
 C:\Users\Andrew\Documents\Projects\KSPCamera\KSPCamera\obj\Debug\KSPCamera.pdb
 E:\games\Kerbal Space Program\GameData\OLDD\DockingCam\KSPCamera.dll
 E:\games\Kerbal Space Program\GameData\OLDD\DockingCam\KSPCamera.pdb
+C:\Users\Andrew\Documents\GitHub\DockingCam\KSPCamera\obj\Debug\KSPCamera.csprojResolveAssemblyReference.cache
+C:\Users\Andrew\Documents\GitHub\DockingCam\KSPCamera\obj\Debug\KSPCamera.dll
+C:\Users\Andrew\Documents\GitHub\DockingCam\KSPCamera\obj\Debug\KSPCamera.pdb
